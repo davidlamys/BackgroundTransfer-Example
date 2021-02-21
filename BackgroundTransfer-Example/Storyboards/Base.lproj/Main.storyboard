@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sxs-k7-Gv8">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sxs-k7-Gv8">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,7 +15,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sxs-k7-Gv8" sceneMemberID="viewController">
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="VEi-0d-nHf">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -32,11 +31,11 @@
             <objects>
                 <viewController id="1gk-bh-oRb" customClass="GalleryViewController" customModule="BackgroundTransfer_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g7Z-lB-6xj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="KPK-II-9dp">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="2" id="BoH-uq-wQg">
                                     <size key="itemSize" width="154" height="154"/>
@@ -65,6 +64,7 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="assetImageView" destination="2zk-nB-u0f" id="N8m-Vh-qsu"/>
+                                            <segue destination="qps-OH-xRZ" kind="show" identifier="push" id="TDl-1X-wZK"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -74,9 +74,10 @@
                                 </connections>
                             </collectionView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sUM-vu-EG5">
-                                <rect key="frame" x="177.5" y="291.5" width="20" height="20"/>
+                                <rect key="frame" x="177.5" y="301.5" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="yfF-ZA-ATj"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="yfF-ZA-ATj" firstAttribute="trailing" secondItem="KPK-II-9dp" secondAttribute="trailing" id="2S8-Ko-wqE"/>
@@ -86,7 +87,6 @@
                             <constraint firstItem="KPK-II-9dp" firstAttribute="leading" secondItem="yfF-ZA-ATj" secondAttribute="leading" id="hY6-0H-L7m"/>
                             <constraint firstItem="KPK-II-9dp" firstAttribute="top" secondItem="yfF-ZA-ATj" secondAttribute="top" id="lGC-1S-yb5"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="yfF-ZA-ATj"/>
                     </view>
                     <navigationItem key="navigationItem" title="Cat Gallery" id="OcC-v3-1fR">
                         <barButtonItem key="rightBarButtonItem" title="Reset" id="oJD-5h-EMb">
@@ -104,8 +104,53 @@
             </objects>
             <point key="canvasLocation" x="-351" y="-360"/>
         </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="aHE-kc-Svm">
+            <objects>
+                <viewController id="qps-OH-xRZ" customClass="DetailViewController" customModule="BackgroundTransfer_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mLT-t4-4UK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TRJ-Sk-9cV">
+                                <rect key="frame" x="20" y="20" width="335" height="335"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="TRJ-Sk-9cV" secondAttribute="height" multiplier="1:1" id="JrM-sP-9zk"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1TZ-6w-wAO">
+                                <rect key="frame" x="20" y="391" width="335" height="30"/>
+                                <state key="normal" title="Upload"/>
+                                <connections>
+                                    <action selector="didTapUpload:" destination="qps-OH-xRZ" eventType="touchUpInside" id="laW-1m-FPP"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hCt-XX-tQK"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="1TZ-6w-wAO" firstAttribute="width" secondItem="TRJ-Sk-9cV" secondAttribute="width" multiplier="1:1" id="0fz-tw-0Of"/>
+                            <constraint firstItem="TRJ-Sk-9cV" firstAttribute="leading" secondItem="hCt-XX-tQK" secondAttribute="leading" constant="20" id="O4Z-nx-7qo"/>
+                            <constraint firstItem="hCt-XX-tQK" firstAttribute="trailing" secondItem="TRJ-Sk-9cV" secondAttribute="trailing" constant="20" id="YM4-UR-Xwy"/>
+                            <constraint firstItem="TRJ-Sk-9cV" firstAttribute="top" secondItem="hCt-XX-tQK" secondAttribute="top" constant="20" id="ad8-Gh-3bM"/>
+                            <constraint firstItem="1TZ-6w-wAO" firstAttribute="centerX" secondItem="hCt-XX-tQK" secondAttribute="centerX" id="faf-cm-rz5"/>
+                            <constraint firstItem="1TZ-6w-wAO" firstAttribute="top" secondItem="TRJ-Sk-9cV" secondAttribute="bottom" constant="36" id="isP-pY-iff"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="6US-rm-UOW"/>
+                    <connections>
+                        <outlet property="imageView" destination="TRJ-Sk-9cV" id="3Wi-wS-Ad2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9OP-5M-HoO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="556" y="-360.2698650674663"/>
+        </scene>
     </scenes>
     <resources>
         <image name="icon-placeholder" width="100" height="100"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

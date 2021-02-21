@@ -9,7 +9,7 @@
 import Foundation
 
 struct GalleryAsset: Equatable {
-    
+    typealias AssetId = String
     let id: String
     let url: URL
     

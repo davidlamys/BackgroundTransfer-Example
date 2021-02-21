@@ -57,6 +57,14 @@ class GalleryViewController: UIViewController {
         collectionView.reloadData()
         retrieveAlbums()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let indexPath = collectionView.indexPathsForSelectedItems?.first, let detailViewController = segue.destination as? DetailViewController {
+            let asset = assets[indexPath.row]
+            detailViewController.asset = asset
+            
+        }
+    }
 }
 
 extension GalleryViewController: UICollectionViewDataSource {
