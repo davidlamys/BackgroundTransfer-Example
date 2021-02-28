@@ -13,7 +13,13 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     
     @IBAction func didTapUpload(_ sender: Any) {
-        
+        guard let asset = asset else {
+            print("wtf david")
+            return
+        }
+        BackgroundUploader.shared.upload(asset: asset) { result in
+            print(result)
+        }
     }
     
     var asset: GalleryAsset?

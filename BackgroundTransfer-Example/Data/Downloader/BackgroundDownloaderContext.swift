@@ -54,3 +54,23 @@ class BackgroundDownloaderContext {
         userDefaults.synchronize()
     }
 }
+
+class BackgroundUploaderContext {
+    private var inMemoryUploadItems: [GalleryAsset.AssetId: UploadItem] = [:]
+    private let userDefaults = UserDefaults.standard
+    
+    func uploadItem(uploadItem: GalleryAsset) -> UploadItem? {
+        if let item = inMemoryUploadItems[uploadItem.id] {
+            return item
+        }
+        return nil
+    }
+    
+    func saveUploadItem(_ uploadItem: UploadItem, asset: GalleryAsset) {
+        inMemoryUploadItems[asset.id] = uploadItem
+        
+//        let encodedData = try? JSONEncoder().encode(uploadItem)
+//        userDefaults.set(encodedData, forKey: downloadItem.remoteURL.path)
+//        userDefaults.synchronize()
+    }
+}

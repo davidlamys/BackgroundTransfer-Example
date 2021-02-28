@@ -28,3 +28,18 @@ class DownloadItem: Codable {
         self.filePathURL = filePathURL
     }
 }
+
+class UploadItem: Codable {
+    let filePathURL: URL
+    var foregroundCompletionHandler: ForegroundDownloadCompletionHandler?
+    
+    private enum CodingKeys: String, CodingKey {
+        case filePathURL
+    }
+    
+    // MARK: - Init
+    
+    init(filePathURL: URL) {
+        self.filePathURL = filePathURL
+    }
+}

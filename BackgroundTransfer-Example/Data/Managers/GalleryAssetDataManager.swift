@@ -35,7 +35,7 @@ class GalleryAssetDataManager {
     
     private func remotelyLoadAsset(_ asset: GalleryAsset, remoteLoadHandler: @escaping ((_ result: DataRequestResult<LoadAssetResult>) -> ())) {
         let downloader = BackgroundDownloader.shared
-        
+        let uploader = BackgroundUploader.shared
         downloader.download(remoteURL: asset.url, filePathURL: asset.cachedLocalAssetURL()) { (result) in
             switch result {
             case .success(let url):
@@ -56,6 +56,9 @@ class GalleryAssetDataManager {
                 
                 DispatchQueue.main.async {
                     remoteLoadHandler(dataRequestResult)
+                }
+                uploader.upload(asset: asset) { url in
+                    print(url)
                 }
             case .failure(let error):
                 remoteLoadHandler(.failure(error))
