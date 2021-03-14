@@ -17,7 +17,7 @@ class DetailViewController: UIViewController {
             print("wtf david")
             return
         }
-        BackgroundUploader.shared.upload(asset: asset) { result in
+        BackgroundUploader.shared.queueUpload(asset: asset) { result in
             print(result)
         }
     }

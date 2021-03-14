@@ -19,3 +19,4 @@ class GalleryURLRequestFactory: URLRequestFactory {
         return request
     }
 }
+

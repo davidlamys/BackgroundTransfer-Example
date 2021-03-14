@@ -22,6 +22,9 @@ class BackgroundUploader: NSObject {
     
     // MARK: - Init
     
+    var queue = [Job]()
+    var dict = [Int: Job]()
+    
     private override init() {
         super.init()
         
@@ -29,12 +32,26 @@ class BackgroundUploader: NSObject {
         session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
     }
     
+    func queueUpload(asset: GalleryAsset, completionHandler: @escaping ForegroundDownloadCompletionHandler) {
+        let job = Job(asset: asset, didComplete: completionHandler)
+        queue.append(job)
+        if queue.first(where: { $0.isCompleted == false }) == job {
+            upload(job: job, completionHandler: completionHandler)
+        }
+    }
     
-    func upload(asset: GalleryAsset, completionHandler: @escaping ForegroundDownloadCompletionHandler) {
-        if let asset = context.uploadItem(uploadItem: asset){
+    func uploadNext() {
+        if let job = queue.first(where: { $0.isCompleted == false }) {
+            upload(job: job, completionHandler: job.didComplete)
+        }
+    }
+    
+    func upload(job: Job, completionHandler: @escaping ForegroundDownloadCompletionHandler) {
+        if let asset = context.uploadItem(uploadItem: job.asset){
             print("Already uploading: \(asset.filePathURL)")
             asset.foregroundCompletionHandler = completionHandler
         } else {
+            let asset = job.asset
             print("Scheduling to upload: \(asset.id)")
             
             let uploadItem = UploadItem(filePathURL: asset.cachedLocalAssetURL())
@@ -62,6 +79,8 @@ class BackgroundUploader: NSObject {
             try? postData?.write(to: localURL)
             
             let task = session.uploadTask(with: request, fromFile: localURL)
+            print("task id: \(task.taskIdentifier)")
+            dict[task.taskIdentifier] = job
             task.resume()
         }
     }
@@ -82,7 +101,23 @@ extension BackgroundUploader: URLSessionDelegate {
 
 extension BackgroundUploader: URLSessionTaskDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        print(task.response)
+        if let httpUrlResponse = task.response as? HTTPURLResponse
+               {
+            
+            if #available(iOS 13.0, *) {
+                if let error = error {
+                    print(httpUrlResponse)
+                    print("Error Occurred: \(error.localizedDescription)")
+                } else if let rateleft = httpUrlResponse.value(forHTTPHeaderField: "x-post-rate-limit-remaining") {
+                    print(rateleft)
+                }
+            }
+        }
+        if let job = dict[task.taskIdentifier] {
+//            job.didComplete(DataRequestResult<URL>)
+            job.isCompleted = true
+            uploadNext()
+        }
     }
     
 }
@@ -97,11 +132,22 @@ extension BackgroundUploader: URLSessionDataDelegate {
                 parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
                 if let dataJson = parsedResult["data"] as? [String: Any] {
                     print("Link is : \(dataJson["link"] as? String ?? "Link not found")")
-                    
+//                    uploadNext()
                 }
             } catch {
                 // Display an error
             }
         }
+    }
+}
+
+class Job: NSObject {
+    let asset: GalleryAsset
+    var isCompleted: Bool = false
+    let didComplete: ForegroundDownloadCompletionHandler
+    
+    internal init(asset: GalleryAsset, didComplete: @escaping ForegroundDownloadCompletionHandler) {
+        self.asset = asset
+        self.didComplete = didComplete
     }
 }

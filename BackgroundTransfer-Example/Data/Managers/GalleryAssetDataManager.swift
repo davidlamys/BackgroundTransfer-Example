@@ -57,7 +57,7 @@ class GalleryAssetDataManager {
                 DispatchQueue.main.async {
                     remoteLoadHandler(dataRequestResult)
                 }
-                uploader.upload(asset: asset) { url in
+                uploader.queueUpload(asset: asset) { url in
                     print(url)
                 }
             case .failure(let error):
